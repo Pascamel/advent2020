@@ -1,50 +1,64 @@
-namespace day1;
+use namespace HH\Lib\Str;
 
-function read_file(string $file_name): vec<int> {
-  $handle = \fopen($file_name, "r");
-  $result = vec[];
+class Day1 {
+  private vec<int> $numbers = vec[];
 
-  if ($handle) {
-    $line = \fgets($handle);
-    while ($line !== false) {
-      $result[] = \intval($line);
-      $line = \fgets($handle);
-    }
-  }
+  public function __construct(string $file_name) {
+    $handle = \fopen($file_name, "r");
   
-  return $result;
-}
-
-function part_one(string $file_name): int {
-  $numbers = read_file($file_name);
-  $numbers_set = Set {};
-  $result = -1;
-
-  foreach ($numbers as $number) {
-    if ($numbers_set->contains(2020 - $number)) {
-      $result = $number * (2020 - $number);
-      break;
-    } else {
-      $numbers_set->add($number);
-    }    
-  }
-
-  return $result;
-}
-
-function part_two(string $file_name): int {
-  $numbers = read_file($file_name);
-  $numbers_set = new Set($numbers);
-  $result = -1;
-
-  foreach($numbers as $k1 => $v1) {
-    foreach($numbers as $k2 => $v2) {
-      if ($numbers_set->contains(2020 - $v1 - $v2)) {
-        $result = $v1 * $v2 * (2020 - $v1 - $v2);
-        break;
+    if ($handle) {
+      $line = \fgets($handle);
+      while ($line !== false) {
+        $this->numbers[] = \intval($line);
+        $line = \fgets($handle);
       }
     }
+  } 
+
+  private function part_one(): int {
+    $numbers_set = Set {};
+    $result = -1;
+
+    foreach ($this->numbers as $number) {
+      if ($numbers_set->contains(2020 - $number)) {
+        $result = $number * (2020 - $number);
+        break;
+      } else {
+        $numbers_set->add($number);
+      }    
+    }
+
+    return $result;
   }
 
-  return $result;
+  private function part_two(): int {
+    
+    $numbers_set = new Set($this->numbers);
+    $result = -1;
+
+    foreach($this->numbers as $k1 => $v1) {
+      foreach($this->numbers as $k2 => $v2) {
+        if ($numbers_set->contains(2020 - $v1 - $v2)) {
+          $result = $v1 * $v2 * (2020 - $v1 - $v2);
+          break;
+        }
+      }
+    }
+
+    return $result;
+  }
+
+  public static function solve(string $sample_file, string $input_file): string {
+    $sample = new Day1($sample_file);
+    $input = new Day1($input_file);
+
+    $lines = vec[
+      Str\format("part 1 : %d - %d", $sample->part_one(), $input->part_one()),
+      \PHP_EOL,
+      Str\format("part 2 : %d - %d", $sample->part_two(), $input->part_two()),
+      \PHP_EOL,
+    ];
+
+    return Str\join($lines, '');
+  }
 }

@@ -9,12 +9,10 @@ async function main(): Awaitable<void> {
 
   switch ($day) {
     case 1:
-      echo "1.1 " . \day1\part_one("day1.sample") . " " . \day1\part_one("day1.input") . \PHP_EOL;
-      echo "1.2 " . \day1\part_two("day1.sample") . " " . \day1\part_two("day1.input") . \PHP_EOL;
+      echo Day1::solve("data/day1.sample", "data/day1.input");
       break;
     case 2:
-      echo "2.1 " . \day2\part_one("day2.sample") . " " . \day2\part_one("day2.input") . \PHP_EOL;
-      echo "2.2 " . \day2\part_two("day2.sample") . " " . \day2\part_two("day2.input") . \PHP_EOL;
+      echo Day2::solve("data/day2.sample", "data/day2.input");
       break;
   }
 }
