@@ -1,5 +1,22 @@
-function day1_part_one(string $file_name): int {
-  $numbers = read_file_ints($file_name);
+namespace day1;
+
+function read_file(string $file_name): vec<int> {
+  $handle = \fopen($file_name, "r");
+  $result = vec[];
+
+  if ($handle) {
+    $line = \fgets($handle);
+    while ($line !== false) {
+      $result[] = \intval($line);
+      $line = \fgets($handle);
+    }
+  }
+  
+  return $result;
+}
+
+function part_one(string $file_name): int {
+  $numbers = read_file($file_name);
   $numbers_set = Set {};
   $result = -1;
 
@@ -15,8 +32,8 @@ function day1_part_one(string $file_name): int {
   return $result;
 }
 
-function day1_part_two(string $file_name): int {
-  $numbers = read_file_ints($file_name);
+function part_two(string $file_name): int {
+  $numbers = read_file($file_name);
   $numbers_set = new Set($numbers);
   $result = -1;
 
