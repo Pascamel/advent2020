@@ -14,5 +14,8 @@ async function main(): Awaitable<void> {
     case 2:
       echo Day2::solve("data/day2.sample", "data/day2.input");
       break;
+    case 3:
+      echo Day3::solve("data/day3.sample", "data/day3.input");
+      break;
   }
 }
