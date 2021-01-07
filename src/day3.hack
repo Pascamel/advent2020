@@ -18,13 +18,12 @@ class Day3 {
     }
   }
 
-  private function count_trees($right, $down): int {
+  private function count_trees(int $right, int $down): int {
     $count = 0;
     $row = 0;
     $col = 0;
-    $row_target = C\count($this->lines);
     
-    while ($row < $row_target = C\count($this->lines)) {
+    while ($row < C\count($this->lines)) {
       $count += $this->lines[$row][$col] ? 1 : 0;
       $row += $down;
       $col = ($col + $right) % C\count($this->lines[0]);
