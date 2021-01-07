@@ -32,7 +32,6 @@ class Day2 {
     }
   }
 
-
   private static function is_valid_password_1(Line $line): bool {
     return C\count(Str\split($line['password'], $line['character'])) - 1
       |> $$ >= $line['min'] && $$ <= $line['max'];
@@ -69,6 +68,3 @@ class Day2 {
     return Str\join($lines, '');
   }
 }
-
-
-
