@@ -1,18 +1,11 @@
-use namespace HH\Lib\Str;
+use namespace HH\Lib\{Vec,Str};
 
-class Day1 {
+class Day1 extends DayBase {
   private vec<int> $numbers = vec[];
 
   public function __construct(string $file_name) {
-    $handle = \fopen($file_name, "r");
-  
-    if ($handle) {
-      $line = \fgets($handle);
-      while ($line !== false) {
-        $this->numbers[] = \intval($line);
-        $line = \fgets($handle);
-      }
-    }
+    parent::load_file($file_name);
+    $this->numbers = Vec\map($this->lines, $v ==> intval($v));
   } 
 
   private function part_one(): int {
@@ -52,13 +45,11 @@ class Day1 {
     $sample = new Day1($sample_file);
     $input = new Day1($input_file);
 
-    $lines = vec[
+    return Str\join(vec[
       Str\format("part 1 : %d - %d", $sample->part_one(), $input->part_one()),
       \PHP_EOL,
       Str\format("part 2 : %d - %d", $sample->part_two(), $input->part_two()),
       \PHP_EOL,
-    ];
-
-    return Str\join($lines, '');
+    ], '');
   }
 }
