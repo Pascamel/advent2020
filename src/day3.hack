@@ -7,7 +7,7 @@ class Day3 extends DayBase {
     parent::load_file($file_name);
     $this->lines2 = Vec\map(
       $this->lines,
-      Str\trim($line)
+      $line ==> Str\trim($line)
         |> Str\split($$, '')
         |> Vec\map($$, $char ==> $char === '#')
     );
