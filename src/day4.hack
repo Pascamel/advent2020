@@ -1,28 +1,23 @@
 use namespace HH\Lib\{C, Str, Vec, Regex};
 
-class Day4 {
-  private vec<vec<string>> $lines = vec[];
+class Day4 extends DayBase {
+  private vec<vec<string>> $lines2 = vec[];
 
   public function __construct(string $file_name) {
-    $handle = \fopen($file_name, "r");
-
-    if ($handle) {
-      $line = \fgets($handle);
-      $passport = vec[];
-      while ($line !== false) {
-        if (Str\length($line) <= 1) {
-          $this->lines[] = $passport;
-          $passport = vec[];
-        } else {
-          $passport = Vec\concat(
-            $passport,
-            Str\split(Str\trim($line), ' '), 
-          );
-        }
-        $line = \fgets($handle);
+    parent::load_file($file_name);
+    $passport = vec[];
+    foreach($this->lines as $line) {
+      if (Str\length($line) <= 1) {
+        $this->lines2[] = $passport;
+        $passport = vec[];
+      } else {
+        $passport = Vec\concat(
+          $passport,
+          Str\split(Str\trim($line), ' '), 
+        );
       }
-      $this->lines[] = $passport;
     }
+    $this->lines2[] = $passport;
   }
 
   private static function is_valid_one(vec<string> $strings): bool {
@@ -83,28 +78,19 @@ class Day4 {
   private function part_one(): int {
     return C\count(
       Vec\filter(
-        $this->lines, 
+        $this->lines2, 
         $line ==> self::is_valid_one($line)
       )
     );
   }
 
   private function part_two(): int {
-    $tmp = 
-      Vec\filter($this->lines, $line ==> self::is_valid_one($line))
-      |> Vec\filter($$, $line ==> self::is_valid_two($line));
-
-    foreach($tmp as $s) {
-      echo "TMP ".Str\join(
-        Vec\sort(
-          Vec\filter(
-            $s, $t ==> Str\slice($t,0,3) !== 'cid'),
-      ), ' ').'|'.\PHP_EOL;
-    }
-    
-    return Vec\filter($this->lines, $line ==> self::is_valid_one($line))
-      |> Vec\filter($$, $line ==> self::is_valid_two($line))
-      |> C\count($$);
+    return C\count(
+      Vec\filter(
+        $this->lines2, 
+        $line ==> self::is_valid_one($line) && self::is_valid_two($line)
+      )
+    );
   }
 
   public static function solve(string $sample_file, string $input_file): string {
